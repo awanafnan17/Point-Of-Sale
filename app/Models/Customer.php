@@ -63,7 +63,9 @@ class Customer extends Person
     public function get_total_rows(): int
     {
         $builder = $this->db->table('customers');
+        $builder->join('people', 'customers.person_id = people.person_id');
         $builder->where('deleted', 0);
+        $builder->where('people.company_id', session()->get('company_id'));
 
         return $builder->countAllResults();
     }
@@ -76,6 +78,7 @@ class Customer extends Person
         $builder = $this->db->table('customers');
         $builder->join('people', 'customers.person_id = people.person_id');
         $builder->where('deleted', 0);
+        $builder->where('people.company_id', session()->get('company_id'));
         $builder->orderBy('last_name', 'asc');
 
         if ($limit > 0) {
@@ -328,6 +331,7 @@ class Customer extends Person
         }
         $builder->groupEnd();
         $builder->where('deleted', 0);
+        $builder->where('people.company_id', session()->get('company_id'));
         $builder->orderBy('last_name', 'asc');
 
         foreach ($builder->get()->getResult() as $row) {
@@ -341,6 +345,7 @@ class Customer extends Person
             $builder = $this->db->table('customers');
             $builder->join('people', 'customers.person_id = people.person_id');
             $builder->where('deleted', 0);
+            $builder->where('people.company_id', session()->get('company_id'));
             $builder->like('email', $search);
             $builder->orderBy('email', 'asc');
 
@@ -351,6 +356,7 @@ class Customer extends Person
             $builder = $this->db->table('customers');
             $builder->join('people', 'customers.person_id = people.person_id');
             $builder->where('deleted', 0);
+            $builder->where('people.company_id', session()->get('company_id'));
             $builder->like('phone_number', $search);
             $builder->orderBy('phone_number', 'asc');
 
@@ -361,6 +367,7 @@ class Customer extends Person
             $builder = $this->db->table('customers');
             $builder->join('people', 'customers.person_id = people.person_id');
             $builder->where('deleted', 0);
+            $builder->where('people.company_id', session()->get('company_id'));
             $builder->like('account_number', $search);
             $builder->orderBy('account_number', 'asc');
 
@@ -371,6 +378,7 @@ class Customer extends Person
             $builder = $this->db->table('customers');
             $builder->join('people', 'customers.person_id = people.person_id');
             $builder->where('deleted', 0);
+            $builder->where('people.company_id', session()->get('company_id'));
             $builder->like('company_name', $search);
             $builder->orderBy('company_name', 'asc');
 
@@ -424,7 +432,9 @@ class Customer extends Person
         $builder->orLike('company_name', $search);
         $builder->orLike('CONCAT(first_name, " ", last_name)', $search);    // TODO: Duplicated code.
         $builder->groupEnd();
+        $builder->groupEnd();
         $builder->where('deleted', 0);
+        $builder->where('people.company_id', session()->get('company_id'));
 
         // get_found_rows case
         if ($count_only) {

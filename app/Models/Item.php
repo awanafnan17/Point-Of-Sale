@@ -91,6 +91,7 @@ class Item extends Model
     {
         $builder = $this->db->table('items');
         $builder->where('deleted', 0);
+        $builder->where('company_id', session()->get('company_id'));
 
         return $builder->countAllResults();
     }
@@ -194,6 +195,8 @@ class Item extends Model
             ? 'DATE_FORMAT(trans_date, "%Y-%m-%d") BETWEEN ' . $this->db->escape($filters['start_date']) . ' AND ' . $this->db->escape($filters['end_date'])
             : 'trans_date BETWEEN ' . $this->db->escape(rawurldecode($filters['start_date'])) . ' AND ' . $this->db->escape(rawurldecode($filters['end_date']));
         $builder->where($where);
+        
+        $builder->where('items.company_id', session()->get('company_id'));
 
         $attributes_enabled = count($filters['definition_ids']) > 0;
 
@@ -274,6 +277,7 @@ class Item extends Model
             $builder->where('location_id', $stock_location_id);
         }
 
+        $builder->where('items.company_id', session()->get('company_id'));
         $builder->where('items.deleted', 0);
 
         // Order by name of item
@@ -299,6 +303,7 @@ class Item extends Model
         $builder->join('attribute_links', 'attribute_links.item_id = items.item_id', 'left');
         $builder->join('attribute_values', 'attribute_links.attribute_id = attribute_values.attribute_id', 'left');
         $builder->where('items.item_id', $item_id);
+        $builder->where('items.company_id', session()->get('company_id'));
         $builder->groupBy('items.item_id');
 
         $query = $builder->get();
@@ -427,6 +432,7 @@ class Item extends Model
         $builder = $this->db->table('items');
 
         if ($item_id < 1 || !$this->exists($item_id, true)) {
+            $item_data['company_id'] = session()->get('company_id');
             if ($builder->insert($item_data)) {
                 $item_data['item_id'] = (int)$this->db->insertID();
                 if ($item_id < 1) {

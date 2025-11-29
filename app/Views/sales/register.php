@@ -63,6 +63,15 @@ helper('url');
 
 <div id="register_wrapper">
 
+    <!-- Help Block for Beginners -->
+    <div class="help-block-custom">
+        <h4><span class="glyphicon glyphicon-info-sign"></span> How to Sell</h4>
+        <p>1. <strong>Scan Item:</strong> Click the big box below and scan the barcode (or type the name).</p>
+        <p>2. <strong>Add to Cart:</strong> The item will appear in the list.</p>
+        <p>3. <strong>Payment:</strong> Enter the amount the customer gave you.</p>
+        <p>4. <strong>Complete:</strong> Click the green "Add Payment" button to finish.</p>
+    </div>
+
     <!-- Top register controls -->
     <?= form_open("$controller_name/changeMode", ['id' => 'mode_form', 'class' => 'form-horizontal panel panel-default']) ?>
         <div class="panel-body form-group">

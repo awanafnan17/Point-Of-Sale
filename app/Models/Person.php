@@ -54,6 +54,7 @@ class Person extends Model
     public function get_all(int $limit = 10000, int $offset = 0): ResultInterface
     {
         $builder = $this->db->table('people');
+        $builder->where('company_id', session()->get('company_id'));
         $builder->orderBy('last_name', 'asc');
         $builder->limit($limit);
         $builder->offset($offset);
@@ -70,6 +71,7 @@ class Person extends Model
     {
         $builder = $this->db->table('people');
         $builder->where('deleted', 0);
+        $builder->where('company_id', session()->get('company_id'));
 
         return $builder->countAllResults();
     }
@@ -145,6 +147,7 @@ class Person extends Model
         $builder = $this->db->table('people');
 
         if ($person_id == NEW_ENTRY || !$this->exists($person_id)) {
+            $person_data['company_id'] = session()->get('company_id');
             if ($builder->insert($person_data)) {
                 $person_data['person_id'] = $this->db->insertID();
 
@@ -173,14 +176,6 @@ class Person extends Model
         $builder = $this->db->table('people');
 
         // TODO: If this won't be added back into the code later, we should delete this commented section of code
-        // $builder->select('person_id');
-        // $builder->where('deleted', 0);
-        // $builder->where('person_id', $search);
-        // $builder->groupStart();
-        // $builder->like('first_name', $search);
-        // $builder->orLike('last_name', $search);
-        // $builder->orLike('CONCAT(first_name, " ", last_name)', $search);
-        // $builder->orLike('email', $search);
         // $builder->orLike('phone_number', $search);
         // $builder->groupEnd();
         // $builder->orderBy('last_name', 'asc');

@@ -3,6 +3,7 @@
 namespace App\Models\Reports;
 
 use App\Models\Item;
+use App\Models\Stock_location;
 
 /**
  *
@@ -31,8 +32,21 @@ class Inventory_low extends Report
      * @return array
      */
     public function getData(array $inputs): array
-    {    // TODO: convert to using QueryBuilder. Use App/Models/Reports/Summary_taxes.php getData() as a reference template
+    {
         $item = model(Item::class);
+        $stock_location = model(Stock_location::class);
+
+        // Get allowed locations for the current user
+        $allowed_locations = $stock_location->get_allowed_locations('items');
+        $allowed_location_ids = array_keys($allowed_locations);
+
+        // If no allowed locations, return empty
+        if (empty($allowed_location_ids)) {
+            return [];
+        }
+
+        $location_ids_str = implode(',', $allowed_location_ids);
+
         $query = $this->db->query("SELECT " . $item->get_item_name('name') . ",
             items.item_number,
             item_quantities.quantity,
@@ -45,6 +59,7 @@ class Inventory_low extends Report
             AND items.stock_type = 0
             AND item_quantities.quantity <= items.reorder_level
             AND stock_locations.deleted = 0
+            AND stock_locations.location_id IN ($location_ids_str)
             ORDER BY items.name");
 
         return $query->getResultArray() ?: [];

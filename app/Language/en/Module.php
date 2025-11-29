@@ -30,6 +30,8 @@ return [
     "messages_desc"              => "Send Messages to Customers, Suppliers and Employees.",
     "migrate"                    => "Migrate",
     "migrate_desc"               => "Update the OSPOS Database.",
+    "notifications"              => "Notifications",
+    "notifications_desc"         => "View Low Inventory Alerts.",
     "office"                     => "Office",
     "office_desc"                => "List office menu modules.",
     "receivings"                 => "Receivings",

@@ -375,11 +375,22 @@ class Employee extends Person
             if ($row->hash_version === '1' && $row->password === md5($password)) {
                 $builder->where('person_id', $row->person_id);
                 $this->session->set('person_id', $row->person_id);
+                
+                // Set company_id in session
+                $person_builder = $this->db->table('people');
+                $person = $person_builder->getWhere(['person_id' => $row->person_id], 1)->getRow();
+                $this->session->set('company_id', $person->company_id);
+
                 $password_hash = password_hash($password, PASSWORD_DEFAULT);
 
                 return $builder->update(['hash_version' => 2, 'password' => $password_hash]);
             } elseif ($row->hash_version === '2' && password_verify($password, $row->password)) {
                 $this->session->set('person_id', $row->person_id);
+                
+                // Set company_id in session
+                $person_builder = $this->db->table('people');
+                $person = $person_builder->getWhere(['person_id' => $row->person_id], 1)->getRow();
+                $this->session->set('company_id', $person->company_id);
 
                 return true;
             }

@@ -1,0 +1,11 @@
+UPDATE ospos.ospos_app_config SET value = 'Rs' WHERE `key` = 'currency_symbol';
+UPDATE ospos.ospos_app_config SET value = 'PKR' WHERE `key` = 'currency_code';
+UPDATE ospos.ospos_app_config SET value = 'GST' WHERE `key` = 'default_tax_1_name';
+UPDATE ospos.ospos_app_config SET value = '18' WHERE `key` = 'default_tax_1_rate';
+UPDATE ospos.ospos_app_config SET value = 'Asia/Karachi' WHERE `key` = 'timezone';
+UPDATE ospos.ospos_app_config SET value = 'd/m/Y' WHERE `key` = 'dateformat';
+UPDATE ospos.ospos_app_config SET value = 'h:i:s a' WHERE `key` = 'timeformat';
+UPDATE ospos.ospos_app_config SET value = 'Shop #1, Main Market, Lahore, Pakistan' WHERE `key` = 'address';
+UPDATE ospos.ospos_app_config SET value = '0300-1234567' WHERE `key` = 'phone';
+UPDATE ospos.ospos_app_config SET value = 'Goods once sold will not be returned or exchanged.' WHERE `key` = 'return_policy';
+UPDATE ospos.ospos_app_config SET value = '1' WHERE `key` = 'barcode_generate_if_empty';

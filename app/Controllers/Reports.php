@@ -800,6 +800,56 @@ class Reports extends Secure_Controller
     }
 
     /**
+     * Generate Word Analytics Report
+     */
+    public function analyticsword()
+    {
+        $start_date = date('Y-m-d', strtotime('-30 days'));
+        $end_date = date('Y-m-d');
+        $inputs = ['start_date' => $start_date, 'end_date' => $end_date, 'sale_type' => 'complete', 'location_id' => 'all'];
+
+        // 1. Hot Selling Items (Top 5)
+        $items_data = $this->summary_items->getData($inputs);
+        usort($items_data, function ($a, $b) {
+            return $b['quantity_purchased'] <=> $a['quantity_purchased'];
+        });
+        $hot_items = array_slice($items_data, 0, 5);
+
+        // 2. Collection Rate
+        $sales_data = $this->summary_sales->getData($inputs);
+        $total_sales = 0;
+        foreach ($sales_data as $row) {
+            $total_sales += $row['total'];
+        }
+
+        $payments_data = $this->summary_payments->getData($inputs);
+        $total_payments = 0;
+        foreach ($payments_data as $row) {
+            if ($row['trans_group'] != '<HR>') {
+                $total_payments += $row['trans_payments'];
+            }
+        }
+
+        $collection_rate = ($total_sales > 0) ? ($total_payments / $total_sales) * 100 : 0;
+
+        // 3. Low Inventory
+        $low_inventory = model(Inventory_low::class)->getData([]);
+
+        $data = [
+            'hot_items' => $hot_items,
+            'collection_rate' => round($collection_rate, 2),
+            'total_sales' => $total_sales,
+            'total_payments' => $total_payments,
+            'low_inventory_count' => count($low_inventory),
+            'start_date' => $start_date,
+            'end_date' => $end_date
+        ];
+
+        echo view('reports/analytics_word', $data);
+    }
+
+
+    /**
      * Graphical summary items report
      *
      * @param string $start_date

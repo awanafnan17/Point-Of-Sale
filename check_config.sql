@@ -1,0 +1,1 @@
+SELECT * FROM ospos.ospos_app_config WHERE `key` IN ('currency_symbol', 'currency_code', 'default_tax_1_rate', 'default_tax_1_name', 'timezone', 'dateformat', 'timeformat', 'barcode_generate_if_empty', 'barcode_type', 'company', 'address', 'phone', 'email', 'return_policy');

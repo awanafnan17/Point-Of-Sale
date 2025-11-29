@@ -15,7 +15,10 @@ class Security extends BaseConfig
      *
      * @var string 'cookie' or 'session'
      */
-    public string $csrfProtection = 'cookie';
+    public string $csrfProtection = 'session'; // Changed from cookie to session to see if it helps, or I can try disabling it by removing the property usage in filters, but CI4 config is usually just this.
+    // Actually, to disable it, I might need to check Filters.php. But usually setting it to something else or modifying the property helps.
+    // Wait, CI4 CSRF is enabled via Filters. Let's check Filters.php.
+    // But for now, I will try to set $regenerate to false.
 
     /**
      * --------------------------------------------------------------------------

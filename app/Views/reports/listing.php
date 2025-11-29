@@ -28,17 +28,32 @@ if (isset($error)) {
 ?>
 
 <div class="row">
-    <div class="col-md-4">
-        <div class="panel panel-primary">
-            <div class="panel-heading">
-                <h3 class="panel-title"><span class="glyphicon glyphicon-stats">&nbsp;</span><?= lang('Reports.graphical_reports') ?></h3>
+    <div class="col-md-12">
+        <div class="card border-info mb-4">
+            <div class="card-header bg-info text-white">
+                <h3 class="card-title text-white" style="margin: 0;"><span class="glyphicon glyphicon-file">&nbsp;</span>Analytics Reports</h3>
             </div>
-            <div class="list-group">
+            <div class="list-group list-group-flush">
+                <a class="list-group-item list-group-item-action" href="<?= site_url('reports/analyticsword') ?>">
+                    <span class="glyphicon glyphicon-download-alt"></span> Download Monthly Analytics (Word)
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md-4">
+        <div class="card border-primary mb-4">
+            <div class="card-header bg-primary text-white">
+                <h3 class="card-title text-white" style="margin: 0;"><span class="glyphicon glyphicon-stats">&nbsp;</span><?= lang('Reports.graphical_reports') ?></h3>
+            </div>
+            <div class="list-group list-group-flush">
                 <?php foreach ($permission_ids as $permission_id) {
                     if (can_show_report($permission_id, ['inventory', 'receiving'])) {
                         $link = get_report_link($permission_id, 'graphical_summary');
                 ?>
-                        <a class="list-group-item" href="<?= $link['path'] ?>"><?= $link['label'] ?></a>
+                        <a class="list-group-item list-group-item-action" href="<?= $link['path'] ?>"><?= $link['label'] ?></a>
                 <?php
                     }
                 }
@@ -48,16 +63,16 @@ if (isset($error)) {
     </div>
 
     <div class="col-md-4">
-        <div class="panel panel-primary">
-            <div class="panel-heading">
-                <h3 class="panel-title"><span class="glyphicon glyphicon-list">&nbsp;</span><?= lang('Reports.summary_reports') ?></h3>
+        <div class="card border-primary mb-4">
+            <div class="card-header bg-primary text-white">
+                <h3 class="card-title text-white" style="margin: 0;"><span class="glyphicon glyphicon-list">&nbsp;</span><?= lang('Reports.summary_reports') ?></h3>
             </div>
-            <div class="list-group">
+            <div class="list-group list-group-flush">
                 <?php foreach ($permission_ids as $permission_id) {
                     if (can_show_report($permission_id, ['inventory', 'receiving'])) {
                         $link = get_report_link($permission_id, 'summary');
                 ?>
-                        <a class="list-group-item" href="<?= $link['path'] ?>"><?= $link['label'] ?></a>
+                        <a class="list-group-item list-group-item-action" href="<?= $link['path'] ?>"><?= $link['label'] ?></a>
                 <?php
                     }
                 }
@@ -67,16 +82,16 @@ if (isset($error)) {
     </div>
 
     <div class="col-md-4">
-        <div class="panel panel-primary">
-            <div class="panel-heading">
-                <h3 class="panel-title"><span class="glyphicon glyphicon-list-alt">&nbsp;</span><?= lang('Reports.detailed_reports') ?></h3>
+        <div class="card border-primary mb-4">
+            <div class="card-header bg-primary text-white">
+                <h3 class="card-title text-white" style="margin: 0;"><span class="glyphicon glyphicon-list-alt">&nbsp;</span><?= lang('Reports.detailed_reports') ?></h3>
             </div>
-            <div class="list-group">
+            <div class="list-group list-group-flush">
                 <?php foreach ($detailed_reports as $report_name => $prefix) {
                     if (in_array($report_name, $permission_ids, true)) {
                         $link = get_report_link($report_name, $prefix);
                 ?>
-                        <a class="list-group-item" href="<?= $link['path'] ?>"><?= $link['label'] ?></a>
+                        <a class="list-group-item list-group-item-action" href="<?= $link['path'] ?>"><?= $link['label'] ?></a>
                 <?php
                     }
                 }
@@ -85,17 +100,17 @@ if (isset($error)) {
         </div>
 
         <?php if (in_array('reports_inventory', $permission_ids, true)) { ?>
-            <div class="panel panel-primary">
-                <div class="panel-heading">
-                    <h3 class="panel-title"><span class="glyphicon glyphicon-book">&nbsp;</span><?= lang('Reports.inventory_reports') ?></h3>
+            <div class="card border-primary mb-4">
+                <div class="card-header bg-primary text-white">
+                    <h3 class="card-title text-white" style="margin: 0;"><span class="glyphicon glyphicon-book">&nbsp;</span><?= lang('Reports.inventory_reports') ?></h3>
                 </div>
-                <div class="list-group">
+                <div class="list-group list-group-flush">
                     <?php
                     $inventory_low_report = get_report_link('reports_inventory_low');
                     $inventory_summary_report = get_report_link('reports_inventory_summary');
                     ?>
-                    <a class="list-group-item" href="<?= $inventory_low_report['path'] ?>"><?= $inventory_low_report['label'] ?></a>
-                    <a class="list-group-item" href="<?= $inventory_summary_report['path'] ?>"><?= $inventory_summary_report['label'] ?></a>
+                    <a class="list-group-item list-group-item-action" href="<?= $inventory_low_report['path'] ?>"><?= $inventory_low_report['label'] ?></a>
+                    <a class="list-group-item list-group-item-action" href="<?= $inventory_summary_report['path'] ?>"><?= $inventory_summary_report['label'] ?></a>
                 </div>
             </div>
         <?php } ?>
